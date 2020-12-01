@@ -4,4 +4,4 @@ raw_data = pd.read_excel(io="/data/luckytiger/shengliOilWell/砂体数据表.xls
 
 level_depth = raw_data.groupby('XCH')['Top', 'Bot'].agg(['max', 'min', 'mean', 'var'])
 print(level_depth)
-level_depth.to_csv('/data/luckytiger/shengliOilWell/level_depth_cal')
+level_depth.to_excel('/data/luckytiger/shengliOilWell/level_depth_cal.xlsx')
