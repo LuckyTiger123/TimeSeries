@@ -33,7 +33,7 @@ def get_1D_upsampling_weight(in_channels, out_channels, kernel_size):
 
 
 class FCN8s(nn.Module):
-    def __init__(self, n_class=9):
+    def __init__(self, n_class=2):
         super(FCN8s, self).__init__()
         # conv1
         self.conv1_1 = nn.Conv1d(8, 64, 3, padding=100)

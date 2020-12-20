@@ -31,7 +31,9 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 train_data = list()
 train_result = list()
+
 # loss_index = list()
+
 train_item = list()
 level_index = list()
 train_level_index = list()
@@ -44,15 +46,17 @@ for _, _, file_list in g:
     for file in file_list:
         item = pd.read_excel('/data/luckytiger/shengliOilWell/train_data/{}'.format(file))
         train_item.append(item)
+
         # loss_index_item = cal_loss_index(item)
         # loss_index.append(loss_index_item)
+
         train_level_index.append(cal_level_index(item))
         train_zero_level_index.append(list(set(item.index) - set(cal_level_index(item))))
         t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         t_input = t_input / t_input.mean()
         t_output = item['level']
-        # t_output.loc[t_output != 60] = 61  # change to 2 class
+        t_output.loc[t_output != 60] = 61  # change to 2 class
         train_input = np.array(t_input)
         train_output = np.array(t_output)
         train_data.append(train_input)
@@ -72,7 +76,7 @@ for _, _, file_list in t:
         # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         t_input = t_input / t_input.mean()
         t_output = item['level']
-        # t_output.loc[t_output != 60] = 61  # change to 2 class
+        t_output.loc[t_output != 60] = 61  # change to 2 class
         test_input = np.array(t_input)
         test_output = np.array(t_output)
         test_data.append(test_input)
@@ -100,6 +104,7 @@ for epoch in range(500):
         out = out.squeeze(0).permute(1, 0)
 
         loss_index = cal_loss_index(train_item[i])
+        # loss_index_item= loss_index[i]
 
         loss = F.nll_loss(out[loss_index], tensor_out[loss_index])
         loss_total += loss
