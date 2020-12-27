@@ -26,7 +26,7 @@ for i in range(1, proportion + 1):
             t_no_level_item = item[item['level'] == 60].sample(int(t_level_item.shape[0] * i), replace=True)
             item = pd.concat([t_level_item, t_no_level_item], ignore_index=True)
 
-            t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+            t_input = item[['DEPTH', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
             # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
             # t_input['ML2'] = t_input['ML2'] / t_input['ML2'].mean()
             t_input['Well'] = file[:2]
@@ -44,7 +44,7 @@ for i in range(1, proportion + 1):
     for _, _, file_list in t:
         for file in file_list:
             item = pd.read_excel('/data/luckytiger/shengliOilWell/test_data/{}'.format(file))
-            t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+            t_input = item[['DEPTH', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
             # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
             # t_input = t_input / t_input.mean()
             t_input['Well'] = file[:2]
@@ -140,5 +140,5 @@ for i in range(1, proportion + 1):
                                          : total_acc, 'precision': precision, 'recall': recall, 'f1': f1,
                                          'model_flag': file_flag}
 
-statistic.to_excel('/data/luckytiger/shengliOilWell/f1_statistic.xlsx')
+statistic.to_excel('/data/luckytiger/shengliOilWell/f1_statistic_attr5.xlsx')
 print('mission complete!')

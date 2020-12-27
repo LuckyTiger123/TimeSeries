@@ -11,7 +11,7 @@ test_data = pd.DataFrame()
 test_label = pd.DataFrame()
 
 # define sample proportion
-proportion = 1
+proportion = 4
 
 g = os.walk('/data/luckytiger/shengliOilWell/train_data')
 for _, _, file_list in g:
@@ -19,11 +19,12 @@ for _, _, file_list in g:
         item = pd.read_excel('/data/luckytiger/shengliOilWell/train_data/{}'.format(file))
 
         t_level_item = item[item['level'] != 60]
-        t_no_level_item = item[item['level'] == 60].sample(int(t_level_item.shape[0] * proportion))
+        t_no_level_item = item[item['level'] == 60].sample(int(t_level_item.shape[0] * proportion), replace=True)
         item = pd.concat([t_level_item, t_no_level_item], ignore_index=True)
 
-        t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+        # t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+        t_input = item[['DEPTH', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         # t_input['ML2'] = t_input['ML2'] / t_input['ML2'].mean()
         t_input['Well'] = file[:2]
 
@@ -40,8 +41,9 @@ t = os.walk('/data/luckytiger/shengliOilWell/test_data')
 for _, _, file_list in t:
     for file in file_list:
         item = pd.read_excel('/data/luckytiger/shengliOilWell/test_data/{}'.format(file))
-        t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+        # t_input = item[['DEPTH', 'Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         # t_input = item[['Por', 'Perm', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
+        t_input = item[['DEPTH', 'AC', 'SP', 'COND', 'ML1', 'ML2']]
         # t_input = t_input / t_input.mean()
         t_input['Well'] = file[:2]
 
